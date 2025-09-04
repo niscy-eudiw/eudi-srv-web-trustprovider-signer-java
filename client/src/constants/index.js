@@ -17,11 +17,11 @@
 // TODO ASSINA Update this to point to the deployed address of the server
 //      See https://create-react-app.dev/docs/adding-custom-environment-variables/
 export const ASSINA_RSSP_BASE_URL =
-    process.env.REACT_APP_ASSINA_RSSP_BASE_URL || "http://localhost:8082";
+    process.env.ASSINA_RSSP_BASE_URL || "http://localhost:8082";
 export const ASSINA_SA_BASE_URL =
-    process.env.REACT_APP_ASSINA_SA_BASE_URL || "http://localhost:8083";
+    process.env.ASSINA_SA_BASE_URL || "http://localhost:8083";
 export const ASSINA_CLIENT_BASE_URL =
-    process.env.REACT_APP_ASSINA_CLIENT_BASE_URL || "http://localhost:3000";
+    process.env.ASSINA_CLIENT_BASE_URL || "http://localhost:3000";
 
 export const API_BASE_URL = ASSINA_RSSP_BASE_URL + "/api/v1";
 export const CSC_BASE_URL = ASSINA_RSSP_BASE_URL + "/csc/v1";

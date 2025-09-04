@@ -14,4 +14,4 @@
 
 #!/bin/bash
 
-cd ../client";export REACT_APP_ASSINA_RSSP_BASE_URL=https://trustprovider.signer.eudiw.dev;export REACT_APP_ASSINA_SA_BASE_URL=https://trustprovider.signer.eudiw.dev;export REACT_APP_ASSINA_CLIENT_BASE_URL=https://trustprovider.signer.eudiw.dev;npm i --save;npm dedupe;npm prune;npm run build;nohup serve -s build &
+cd ../client";export ASSINA_RSSP_BASE_URL=https://trustprovider.signer.eudiw.dev;export ASSINA_SA_BASE_URL=https://trustprovider.signer.eudiw.dev;export ASSINA_CLIENT_BASE_URL=https://trustprovider.signer.eudiw.dev;npm i --save;npm dedupe;npm prune;npm run build;nohup serve -s build &
