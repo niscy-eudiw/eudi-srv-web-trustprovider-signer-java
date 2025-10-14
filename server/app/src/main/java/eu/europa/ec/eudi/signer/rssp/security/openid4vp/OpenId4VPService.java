@@ -132,8 +132,7 @@ public class OpenId4VPService {
             throw new Exception("The response from the Verifier doesn't contain a correctly formatted JSON string.");
         }
 
-        VPValidator validator = new VPValidator(responseVerifier, VerifierClient.PRESENTATION_DEFINITION_ID,
-                VerifierClient.PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID, ejbcaService);
+        VPValidator validator = new VPValidator(responseVerifier, ejbcaService);
         MDoc document = validator.loadAndVerifyDocumentForVP(logsMap);
         return loadUserFromDocument(document).user();
     }

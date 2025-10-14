@@ -47,7 +47,6 @@ import eu.europa.ec.eudi.signer.rssp.util.WebUtils;
 public class VerifierClient {
     public static String Authentication = "Authentication";
     public static String Authorization = "Authorization";
-    public static String PRESENTATION_DEFINITION_ID = "32f54163-7166-48f1-93d8-ff217bdb0653";
     public static String PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID = "eu.europa.ec.eudi.pid.1";
 
     private static final Logger log = LoggerFactory.getLogger(VerifierClient.class);
@@ -123,27 +122,6 @@ public class VerifierClient {
         MessageDigest sha = MessageDigest.getInstance("SHA-256");
         byte[] result = sha.digest(randomNum.getBytes());
         return Base64.getUrlEncoder().encodeToString(result);
-    }
-
-    private JSONObject getPresentationDefinition(){
-        String presentationDefinition = "{" +
-              "'id': '32f54163-7166-48f1-93d8-ff217bdb0653'," +
-              "'input_descriptors': [{" +
-              "'id': '"+ PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID +"'," +
-              "'name': 'EUDI PID'," +
-              "'purpose': 'We need to verify your identity'," +
-              "'format': {'mso_mdoc': {" +
-              "'alg': ['ES256', 'ES384', 'ES512'] } }," +
-              "'constraints': {" +
-              "'limit_disclosure': 'required',"+
-              "'fields': [" +
-              "{'path': [\"$['"+ PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID +"']['family_name']\"], 'intent_to_retain': true}," +
-              "{\"path\": [\"$['"+ PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID +"']['given_name']\"],  \"intent_to_retain\": true}," +
-              "{\"path\": [\"$['"+ PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID +"']['birth_date']\"],  \"intent_to_retain\": true}," +
-              "{\"path\": [\"$['"+ PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID +"']['issuing_authority']\"], \"intent_to_retain\": true}," +
-              "{\"path\": [\"$['"+ PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID +"']['issuing_country']\"], \"intent_to_retain\": true}" +
-              "]}}]}";
-        return new JSONObject(presentationDefinition);
     }
 
     private JSONObject getDCQLQueryJSON(){
@@ -269,7 +247,7 @@ public class VerifierClient {
 		log.info("Request URI: {}", request_uri);
         String client_id = responseFromVerifier.getString("client_id");
 		log.info("Client Id: {}", client_id);
-        if(!client_id.equals(this.verifierProperties.getClientId())){
+        if(!client_id.contains(this.verifierProperties.getClientId())){
             log.error(SignerError.UnexpectedError.getFormattedMessage());
             throw new ApiException(SignerError.UnexpectedError, SignerError.UnexpectedError.getFormattedMessage());
         }

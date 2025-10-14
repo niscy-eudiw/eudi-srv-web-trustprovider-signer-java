@@ -9,8 +9,8 @@ services:
     env_file:
       - .env
     volumes:
-      - /mnt/c/Users/mrodr/RQES_Projects/HSM/config:/opt/app/config/hsm/
-      - /mnt/c/Users/mrodr/RQES_Projects/ejbca_files:/opt/app/config/ejbca/
+      - {PATH_TO_HSM_CONFIG_FOLDER}:/opt/app/config/hsm/
+      - {PATH_TO_EJBCA_CONFIG_FOLDER}:/opt/app/config/ejbca/
   trust_provider_signer_server_sa:
     build:
       context: server

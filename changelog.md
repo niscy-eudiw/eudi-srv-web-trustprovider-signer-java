@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.0]
+_15 Oct 2025_
+
+### Changed
+- Updated OID4VP-related code to support OpenID4VP v1.
+
 ## [0.4.0]
 
 _07 Jul 2025_
