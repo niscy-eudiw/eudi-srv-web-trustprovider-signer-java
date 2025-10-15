@@ -14,14 +14,12 @@
  limitations under the License.
  */
 
-import React, { Component } from "react";
+import { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./AppHeader.css";
-
 import logo from "../img/logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../site.css";
-
 import { ACCESS_TOKEN, API_BASE_URL } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -32,7 +30,6 @@ class AppHeader extends Component {
 
   constructor(props) {
     super(props);
-
     this.verify = this.verify.bind(this);
   }
 
@@ -54,11 +51,13 @@ class AppHeader extends Component {
   }
 
   render() {
-    const context = this.context;
-    console.log("AppHeader context:", context);
-    console.log("AppHeader authenticated:", context.authenticated);
+    const auth = this.context;
+    const authenticated = auth ? auth.authenticated : false;
 
-    if (context.authenticated) {
+    console.log("AppHeader context:", auth);
+    console.log("AppHeader authenticated:", authenticated);
+
+    if (authenticated) {
       return (
         <div className="app-header">
           <nav
@@ -141,8 +140,8 @@ class AppHeader extends Component {
                       <li>
                         <a
                           className="dropdown-item"
-                          onClick={() => context.logout()}
-                          onKeyDown={() => context.logout()}
+                          onClick={() => this.context.logout()}
+                          onKeyDown={() => this.context.logout()}
                         >
                           Logout
                         </a>

@@ -5,6 +5,10 @@ _15 Oct 2025_
 
 ### Changed
 - Updated OID4VP-related code to support OpenID4VP v1.
+- Updated HSM key templates.
+
+### Fixed
+- Fixed a bug in the client service (React.js) that caused the header to display incorrect options for unauthenticated users.
 
 ## [0.4.0]
 
