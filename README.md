@@ -301,7 +301,7 @@ spring:
    verifier:
       url: https://dev.verifier-backend.eudiw.dev/ui/presentations
       address: dev.verifier-backend.eudiw.dev
-      client_id: x509_san_dns:verifier-backend.eudiw.dev
+      client_id: verifier-backend.eudiw.dev
    ```
 
    When a user wants to authenticate or sign a document, the server communicates with the Verifier and redirects the user to the EUDI Wallet. The result of this process is vp_tokens. The application then validates the vp_tokens received from the Verifier.

@@ -17,7 +17,7 @@ server:
 
 spring:
     #config:
-    #  import: file:../.env[.properties]
+    #    import: file:${PROJECT_ROOT:.}/../.env[.properties]
     datasource:
         username: ${SPRING_DATASOURCE_USERNAME}
         password: ${SPRING_DATASOURCE_PASSWORD}
@@ -44,7 +44,7 @@ assina:
 verifier:
     url: https://verifier-backend.eudiw.dev/ui/presentations
     address: verifier-backend.eudiw.dev
-    client_id: x509_san_dns:verifier-backend.eudiw.dev
+    client_id: verifier-backend.eudiw.dev
 
 trusted-issuers:
     folder: issuersCertificates
