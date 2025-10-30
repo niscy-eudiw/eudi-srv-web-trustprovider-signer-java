@@ -194,6 +194,11 @@ JACKNJI11_TEST_SO_PIN=     # HSM security officer PIN
 ASSINA_RSSP_BASE_URL=
 ASSINA_SA_BASE_URL=
 ASSINA_CLIENT_BASE_URL=
+
+# ---------- ReactJS Services URLs -------------
+REACT_APP_APP_BASE_URL=
+REACT_APP_SA_BASE_URL=
+REACT_APP_CLIENT_BASE_URL=
 ```
 
 ## Local Deployment
