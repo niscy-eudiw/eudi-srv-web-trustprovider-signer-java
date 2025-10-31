@@ -19,7 +19,7 @@ export const ASSINA_RSSP_BASE_URL =
 export const ASSINA_SA_BASE_URL =
   process.env.REACT_APP_SA_BASE_URL || "http://localhost:8083";
 export const ASSINA_CLIENT_BASE_URL =
-    process.env.ASSINA_CLIENT_BASE_URL || "http://localhost:3000";
+    process.env.REACT_APP_CLIENT_BASE_URL || "http://localhost:3000";
 
 export const API_BASE_URL = ASSINA_RSSP_BASE_URL + "/api/v1";
 export const CSC_BASE_URL = ASSINA_RSSP_BASE_URL + "/csc/v1";
