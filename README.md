@@ -160,21 +160,18 @@ This file centralizes configuration details for database access, encryption, and
 Create a .env file in the root of your project and define the following variables:
 
 ```
-SPRING_DATASOURCE_SERVER={database_url} # Example: host.docker.internal:3306 or localhost:3306
-SPRING_DATASOURCE_DATABASE={database_name}
+SPRING_DATASOURCE_DB_URL={database_url} # Example: host.docker.internal:3306 or localhost:3306
+SPRING_DATASOURCE_DB_NAME={database_name}
 SPRING_DATASOURCE_USERNAME={database_username}
 SPRING_DATASOURCE_PASSWORD={database_password}
-
-AUTH_JWT_TOKEN_SECRET= # the BASE64-encoded signing key for the JWT token generation: used to digitally sign the JWT
-AUTH_SAD_TOKEN_SECRET= # the BASE64-encoded signing key for SAD token generation: used to digitally sign the SAD token
-
-ASSINA_SA_BASE_URL= {sa_url}
-CSC_BASE_URL= {app_url}/csc/v1
-ASSINA_CLIENT_BASE_URL= {client_url}
 
 # --- Secret Key Encryption ---
 AUTH_DB_ENCRYPTION_PASSPHRASE= # Passphrase for encrypting secret keys stored in the database
 AUTH_DB_ENCRYPTION_SALT=       # Base64-encoded salt used with the passphrase to derive the encryption key
+
+# --- Tokens Secrets ---
+AUTH_JWT_TOKEN_SECRET= # the BASE64-encoded signing key for the JWT token generation: used to digitally sign the JWT
+AUTH_SAD_TOKEN_SECRET= # the BASE64-encoded signing key for SAD token generation: used to digitally sign the SAD token
 
 # --- EJBCA Configuration ---
 EJBCA_HOST=                # EJBCA service hostname or IP
@@ -192,6 +189,16 @@ JACKNJI11_TEST_INITSLOT=   # Initial HSM slot identifier
 JACKNJI11_TEST_TESTSLOT=   # Secondary HSM slot identifier
 JACKNJI11_TEST_USER_PIN=   # HSM user PIN
 JACKNJI11_TEST_SO_PIN=     # HSM security officer PIN
+
+# ---------- CLIENT ENVS -------------
+ASSINA_RSSP_BASE_URL=
+ASSINA_SA_BASE_URL=
+ASSINA_CLIENT_BASE_URL=
+
+# ---------- ReactJS Services URLs -------------
+REACT_APP_APP_BASE_URL=
+REACT_APP_SA_BASE_URL=
+REACT_APP_CLIENT_BASE_URL=
 ```
 
 ## Local Deployment
@@ -299,7 +306,7 @@ spring:
    verifier:
       url: https://dev.verifier-backend.eudiw.dev/ui/presentations
       address: dev.verifier-backend.eudiw.dev
-      client_id: x509_san_dns:verifier-backend.eudiw.dev
+      client_id: verifier-backend.eudiw.dev
    ```
 
    When a user wants to authenticate or sign a document, the server communicates with the Verifier and redirects the user to the EUDI Wallet. The result of this process is vp_tokens. The application then validates the vp_tokens received from the Verifier.

@@ -14,17 +14,17 @@
  limitations under the License.
  */
 
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "./AuthProviderFunction";
 
 const PersonalizedRoute = () => {
-    const auth = useContext(AuthContext);
-    const authenticated = auth.authenticated;
-    console.log("PersonalizedRoute: authentcated = " + authenticated);
+  const auth = useContext(AuthContext);
+  const authenticated = auth.authenticated;
+  console.log("PersonalizedRoute: authenticated = " + authenticated);
 
-    if (!authenticated) return <Navigate to="/login" />;
-    return <Outlet />;
+  if (!authenticated) return <Navigate to="/login" />;
+  return <Outlet />;
 };
 
 export default PersonalizedRoute;

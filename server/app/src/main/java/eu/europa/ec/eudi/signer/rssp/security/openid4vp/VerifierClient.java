@@ -47,8 +47,7 @@ import eu.europa.ec.eudi.signer.rssp.util.WebUtils;
 public class VerifierClient {
     public static String Authentication = "Authentication";
     public static String Authorization = "Authorization";
-    public static String PresentationDefinitionId = "32f54163-7166-48f1-93d8-ff217bdb0653";
-    public static String PresentationDefinitionInputDescriptorsId = "eu.europa.ec.eudi.pid.1";
+    public static String PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID = "eu.europa.ec.eudi.pid.1";
 
     private static final Logger log = LoggerFactory.getLogger(VerifierClient.class);
     private final VerifierProperties verifierProperties;
@@ -125,48 +124,61 @@ public class VerifierClient {
         return Base64.getUrlEncoder().encodeToString(result);
     }
 
-    private JSONObject getPresentationDefinition(){
-        String presentationDefinition = "{" +
-              "'id': '32f54163-7166-48f1-93d8-ff217bdb0653'," +
-              "'input_descriptors': [{" +
-              "'id': '"+PresentationDefinitionInputDescriptorsId+"'," +
-              "'name': 'EUDI PID'," +
-              "'purpose': 'We need to verify your identity'," +
-              "'format': {'mso_mdoc': {" +
-              "'alg': ['ES256', 'ES384', 'ES512'] } }," +
-              "'constraints': {" +
-              "'limit_disclosure': 'required',"+
-              "'fields': [" +
-              "{'path': [\"$['"+PresentationDefinitionInputDescriptorsId+"']['family_name']\"], 'intent_to_retain': true}," +
-              "{\"path\": [\"$['"+PresentationDefinitionInputDescriptorsId+"']['given_name']\"],  \"intent_to_retain\": true}," +
-              "{\"path\": [\"$['"+PresentationDefinitionInputDescriptorsId+"']['birth_date']\"],  \"intent_to_retain\": true}," +
-              "{\"path\": [\"$['"+PresentationDefinitionInputDescriptorsId+"']['issuing_authority']\"], \"intent_to_retain\": true}," +
-              "{\"path\": [\"$['"+PresentationDefinitionInputDescriptorsId+"']['issuing_country']\"], \"intent_to_retain\": true}" +
-              "]}}]}";
-        return new JSONObject(presentationDefinition);
+    private JSONObject getDCQLQueryJSON(){
+        String dcqlQuery = "{" +
+              "'credentials': [" +
+              "{" +
+              "'id': 'query_0'," +
+              "'format': 'mso_mdoc'," +
+              "'meta': {'doctype_value': '"+PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID+"'}," +
+              "'claims': [" +
+              "{" +
+              "'path': ['" + PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID+"', 'family_name']," +
+              "'intent_to_retain': false" +
+              "}," +
+              "{" +
+              "'path': ['" + PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID+"', 'given_name']," +
+              "'intent_to_retain': false" +
+              "}," +
+              "{" +
+              "'path': ['" + PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID+"', 'birth_date']," +
+              "'intent_to_retain': false" +
+              "}," +
+              "{" +
+              "'path': ['" + PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID+"', 'issuing_authority']," +
+              "'intent_to_retain': false" +
+              "}," +
+              "{" +
+              "'path': ['" + PRESENTATION_DEFINITION_INPUT_DESCRIPTORS_ID+"', 'issuing_country']," +
+              "'intent_to_retain': false" +
+              "}" +
+              "]" +
+              "}" +
+              "]" +
+              "}";
+        return new JSONObject(dcqlQuery);
     }
 
     private String getInitTransactionCrossDeviceBody(String nonce) {
-        JSONObject presentationDefinition = getPresentationDefinition();
+        JSONObject dcqlQueryJSON = getDCQLQueryJSON();
 
         JSONObject jsonBodyToInitPresentation = new JSONObject();
         jsonBodyToInitPresentation.put("type", "vp_token");
         jsonBodyToInitPresentation.put("nonce", nonce);
-        jsonBodyToInitPresentation.put("presentation_definition", presentationDefinition);
+        jsonBodyToInitPresentation.put("dcql_query", dcqlQueryJSON);
         return jsonBodyToInitPresentation.toString();
     }
 
     private String getInitTransactionSameDeviceBody(String user, String nonce, String redirect_uri) {
-        JSONObject presentationDefinition = getPresentationDefinition();
+        JSONObject dcqlQueryJSON = getDCQLQueryJSON();
 
         String redirectUri = redirect_uri+"?session_id="+user+"&response_code={RESPONSE_CODE}";
 
         JSONObject jsonBodyToInitPresentation = new JSONObject();
         jsonBodyToInitPresentation.put("type", "vp_token");
         jsonBodyToInitPresentation.put("nonce", nonce);
-        jsonBodyToInitPresentation.put("presentation_definition", presentationDefinition);
+        jsonBodyToInitPresentation.put("dcql_query", dcqlQueryJSON);
         jsonBodyToInitPresentation.put("wallet_response_redirect_uri_template", redirectUri);
-
         return jsonBodyToInitPresentation.toString();
     }
 
@@ -235,7 +247,7 @@ public class VerifierClient {
 		log.info("Request URI: {}", request_uri);
         String client_id = responseFromVerifier.getString("client_id");
 		log.info("Client Id: {}", client_id);
-        if(!client_id.equals(this.verifierProperties.getClientId())){
+        if(!client_id.contains(this.verifierProperties.getClientId())){
             log.error(SignerError.UnexpectedError.getFormattedMessage());
             throw new ApiException(SignerError.UnexpectedError, SignerError.UnexpectedError.getFormattedMessage());
         }
